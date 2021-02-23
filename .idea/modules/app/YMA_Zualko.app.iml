@@ -103,5 +103,6 @@
     <orderEntry type="library" name="Gradle: androidx.annotation:annotation-experimental:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.GrenderG:Toasty:1.4.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.florent37:singledateandtimepicker:2.2.7@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.maayyaannkk:ImagePicker:1.0.9@aar" level="project" />
   </component>
 </module>

@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.opengl.Matrix;
 import android.os.Bundle;
@@ -48,9 +51,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     SimpleDateFormat simpleDateFormat;
     SimpleDateFormat simpleTimeFormat;
-    SimpleDateFormat simpleDateOnlyFormat;
-    SimpleDateFormat simpleDateLocaleFormat;
+    //SimpleDateFormat simpleDateOnlyFormat;
+    //SimpleDateFormat simpleDateLocaleFormat;
 
+    String funeralStr;
+    String deathStr;
     Boolean bName = true;
     Boolean bAge = true;
     Boolean bDeathtime = false;
@@ -58,10 +63,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Boolean bBranch = true;
     Boolean bSection = true;
 
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        sharedPreferences = getApplication().getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
 
         name = findViewById(R.id.name);
         age = findViewById(R.id.age);
@@ -70,16 +77,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         funeralTime = findViewById(R.id.funeralTime);
         branch = findViewById(R.id.branch);
 
-        this.simpleDateFormat = new SimpleDateFormat("d.MM.YYYY HH:mm", Locale.getDefault());
-        this.simpleTimeFormat = new SimpleDateFormat("hh:mm aa", Locale.getDefault());
-        this.simpleDateOnlyFormat = new SimpleDateFormat("EEE d MMM", Locale.getDefault());
-        this.simpleDateLocaleFormat = new SimpleDateFormat("EEE d MMM", Locale.ENGLISH);
+        funeralStr="";
+        deathStr="";
+
+        prepopulate();
+        this.simpleDateFormat = new SimpleDateFormat("d.MM.YYYY h:m a", Locale.getDefault());
+        this.simpleTimeFormat = new SimpleDateFormat("h:m a", Locale.getDefault());
+        //this.simpleDateOnlyFormat = new SimpleDateFormat("EEE d MMM", Locale.getDefault());
+        //this.simpleDateLocaleFormat = new SimpleDateFormat("EEE d MMM", Locale.ENGLISH);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+    }
+
+    private void prepopulate() {
+        if(!sharedPreferences.getString("name","").matches("")){
+            bName = true;
+            name.setText(sharedPreferences.getString("name",""));
+        }else bName = false;
+
+        if(!sharedPreferences.getString("age","").matches("")){
+            bAge = true;
+            age.setText(sharedPreferences.getString("age",""));
+        }else bAge = false;
+
+        if(!sharedPreferences.getString("section","").matches("")){
+            bSection = true;
+            section.setText(sharedPreferences.getString("section",""));
+        }else bSection = false;
+
+
+        if(!sharedPreferences.getString("branch","").matches("")){
+            bBranch = true;
+            branch.setText(sharedPreferences.getString("branch",""));
+        }else bBranch = false;
+
+        if(!sharedPreferences.getString("funeral","").matches("")){
+            bFuneralTime = true;
+            funeralTime.setText(sharedPreferences.getString("funeral",""));
+            funeralStr = sharedPreferences.getString("funeral","");
+        }else bFuneralTime = false;
+
+        if(!sharedPreferences.getString("death","").matches("")){
+            bDeathtime = true;
+            deathTime.setText(sharedPreferences.getString("death",""));
+            deathStr = sharedPreferences.getString("death","");
+        }else bDeathtime = false;
     }
 
     /**
@@ -118,6 +164,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng userLocationSet = new LatLng(midLatLng.latitude,midLatLng.longitude);
 
                 Log.d("TAG","LatLng: "+userLocationSet);
+                sharedPreferences.edit().putString("lat", String.valueOf(userLocationSet.latitude)).apply();
+                sharedPreferences.edit().putString("lng", String.valueOf(userLocationSet.longitude)).apply();
+
             }
         });
     }
@@ -156,11 +205,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onDateSelected(Date date) {
                         bDeathtime = true;
                         //     singleTimeText.setText(simpleTimeFormat.format(date));
-                        deathTime.setText(simpleDateFormat.format(date)+simpleTimeFormat.format(date));
+                        deathTime.setText(simpleDateFormat.format(date));
+                        deathStr = simpleDateFormat.format(date);
+                        sharedPreferences.edit().putString("death",deathStr).apply();
                     }
                 });
         singleBuilder.display();
-
     }
 
     public void funeralClick(View view) {
@@ -195,7 +245,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onDateSelected(Date date) {
                         //     singleTimeText.setText(simpleTimeFormat.format(date));
                         bFuneralTime = true;
-                         funeralTime.setText(simpleDateFormat.format(date)+simpleTimeFormat.format(date));
+                         funeralTime.setText(simpleDateFormat.format(date));
+                         funeralStr = simpleDateFormat.format(date);
+                         sharedPreferences.edit().putString("funeral",funeralStr).apply();
                     }
                 });
         singleBuilder.display();
@@ -206,25 +258,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(name.getText().toString().matches("")){
             name.setError("sfsdsdf");
             bName =false;
-        }
+        }else bName = true;
         if(age.getText().toString().matches("")){
             age.setError("sfsdsdf");
             bAge = false;
-        }
+        }else bAge = true;
         if(section.getText().toString().matches("")){
             section.setError("sfsdsdf");
             bSection = false;
-        }
+        }else bSection = true;
         if(branch.getText().toString().matches("")){
             branch.setError("sfsdsdf");
             bBranch = false;
-        }
+        }else bBranch = true;
 
         if(bName && bAge && bSection && bBranch && bDeathtime && bFuneralTime){
             Toasty.success(this,"YES",Toasty.LENGTH_SHORT).show();
             Log.d("TAG","SUCCESS");
+
+            sharedPreferences.edit().putString("name",name.getText().toString()).apply();
+            sharedPreferences.edit().putString("age",age.getText().toString()).apply();
+            sharedPreferences.edit().putString("section",section.getText().toString()).apply();
+            sharedPreferences.edit().putString("branch",branch.getText().toString()).apply();
+            sharedPreferences.edit().putString("funeral",sharedPreferences.getString("funeral","")).apply();
+            sharedPreferences.edit().putString("death",sharedPreferences.getString("death","")).apply();
+
+
+            Intent intent = new Intent(this,MainActivity.class);
+            intent.putExtra("name",name.getText().toString());
+            intent.putExtra("age",age.getText().toString());
+            intent.putExtra("section",section.getText().toString());
+            intent.putExtra("branch",branch.getText().toString());
+            intent.putExtra("funeral",funeralStr);
+            intent.putExtra("death",deathStr);
+
+            startActivity(intent);
+
         }
-
-
     }
 }

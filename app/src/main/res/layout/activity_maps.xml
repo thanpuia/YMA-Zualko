@@ -7,75 +7,81 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
-            android:maxLines="1"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelAlwaysShown="true"
-            app:met_floatingLabelText="Mithi Hming"
-            android:maxLength="50"
-            />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Mithi Hming"
+                android:maxLength="50"
+                />
 
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLines="1"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelAlwaysShown="true"
-            app:met_floatingLabelText="Kum"
-            android:maxLength="3"
-            />
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLines="1"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Kum"
+                android:maxLength="3"
+                />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/section"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
-            android:maxLines="1"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelAlwaysShown="true"
-            app:met_floatingLabelText="Awm na section amo Upa Bial"
-            android:maxLength="50"
-            />
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Awm na section amo Upa Bial"
+                android:maxLength="50"
+                />
 
 
 
-       <Button
-           android:id="@+id/deathTime"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-        android:onClick="deathTimeClick"/>
+            <Button
+                android:id="@+id/deathTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="deathTimeClick"/>
 
-        <Button
-            android:id="@+id/funeralTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="funeralClick"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/branch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
-            android:maxLines="1"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelAlwaysShown="true"
-            app:met_floatingLabelText="Branch"
-            android:maxLength="50"
-            />
+            <Button
+                android:id="@+id/funeralTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="funeralClick"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/branch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Branch"
+                android:maxLength="50"
+                />
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
