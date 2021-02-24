@@ -1,5 +1,7 @@
 package com.example.ymazualko;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -8,6 +10,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.opengl.Matrix;
@@ -26,8 +29,20 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.appupdate.testing.FakeAppUpdateManager;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnSuccessListener;
+import com.google.android.play.core.tasks.Task;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.sanojpunchihewa.updatemanager.UpdateManager;
+import com.sanojpunchihewa.updatemanager.UpdateManagerConstant;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,7 +52,7 @@ import java.util.TimeZone;
 
 import es.dmoral.toasty.Toasty;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     MaterialEditText name;
@@ -64,6 +79,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Boolean bSection = true;
 
     SharedPreferences sharedPreferences;
+     private static final int MY_REQUEST_CODE = 11;
+    //InAppUpdateManager inAppUpdateManager;
+    UpdateManager mUpdateManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +99,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         funeralStr="";
         deathStr="";
 
+        /*in-app update start*/
+       FakeAppUpdateManager fakeAppUpdateManager = new FakeAppUpdateManager(this);
+       fakeAppUpdateManager.setUpdateAvailable(7);
+       fakeAppUpdateManager.userAcceptsUpdate();
+       fakeAppUpdateManager.isImmediateFlowVisible();
+
+       fakeAppUpdateManager.isConfirmationDialogVisible();
+       fakeAppUpdateManager.userAcceptsUpdate();
+      //  fakeAppUpdateManager.downloadStarts();
+//        inAppUpdateManager.checkForAppUpdate();
+      //  inAppUpdateManager.completeUpdate();
+//        fakeAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+//            @Override
+//            public void onSuccess(AppUpdateInfo result) {
+//                Toast.makeText(getApplicationContext(),"UPDATE",Toast.LENGTH_SHORT).show();
+//                Log.d("TAG","resutl"+result);
+//            }
+//        });
+
+        mUpdateManager = UpdateManager.Builder(this).mode(UpdateManagerConstant.IMMEDIATE);
+        mUpdateManager.start();
+
+
+
+        mUpdateManager.addUpdateInfoListener(new UpdateManager.UpdateInfoListener() {
+            @Override
+            public void onReceiveVersionCode(final int code) {
+                // You can get the available version code of the apk in Google Play
+                // Do something here
+                Log.d("TAG","VERCODE: "+code);
+
+            }
+
+            @Override
+            public void onReceiveStalenessDays(final int days) {
+                // Number of days passed since the user was notified of an update through the Google Play
+                // If the user hasn't notified this will return -1 as days
+                // You can decide the type of update you want to call
+            }
+        });
+        /*in-app update end*/
+
         prepopulate();
         this.simpleDateFormat = new SimpleDateFormat("d.MM.YYYY h:m a", Locale.getDefault());
         this.simpleTimeFormat = new SimpleDateFormat("h:m a", Locale.getDefault());
@@ -91,6 +152,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_REQUEST_CODE) {
+            Toasty.info(this,"START DL",Toasty.LENGTH_SHORT).show();
+            if (resultCode != RESULT_OK) {
+
+
+            }
+        }
     }
 
     private void prepopulate() {
@@ -296,4 +371,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     }
+
+
+
+
 }

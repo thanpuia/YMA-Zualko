@@ -104,5 +104,7 @@
     <orderEntry type="library" name="Gradle: com.github.GrenderG:Toasty:1.4.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.florent37:singledateandtimepicker:2.2.7@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.maayyaannkk:ImagePicker:1.0.9@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.play:core:1.9.1@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.SanojPunchihewa:InAppUpdater:1.0.5@aar" level="project" />
   </component>
 </module>
