@@ -5,82 +5,236 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:background="#83DBDCDC"
+
     android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zualko"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/picture"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_gravity="center"
-        android:onClick="imageSelectClick"
-        android:src="@color/black"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/nameLabel"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/ymalogo"
+            android:layout_width="210dp"
+            android:visibility="gone"
+            android:layout_height="120dp"
+            android:src="@drawable/yma"/>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hming :"/>
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/nameValue"
-            android:layout_toRightOf="@id/nameLabel"/>
+            <TextView
+                android:id="@+id/branchHming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="YOUNG MIZO ASSOCIATION: ELECTRIC VENG BRANCH"/>
 
-        <TextView
-            android:layout_below="@id/nameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kum: "
-            android:id="@+id/ageLabel"/>
-        <TextView
-            android:layout_below="@id/nameValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ageValue"
-            android:layout_toRightOf="@id/ageLabel"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                android:textColor="#D13838"
+                android:text="ZUALKO"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ageLabel"
-            android:text="Thih ni: "
-            android:id="@+id/deathLabel"/>
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/thlalak"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ageValue"
-            android:layout_toRightOf="@id/deathLabel"
-            android:id="@+id/deathValue"/>
+                android:src="@drawable/ic_baseline_person_24"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deathLabel"
-            android:text="Vui ni: "
-            android:id="@+id/funeralLabel"/>
+            <TextView
+                android:id="@+id/hming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22dp"
+                android:textAlignment="center"
+                android:text="Pu XYZ , k-99"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deathValue"
-            android:layout_toRightOf="@id/funeralLabel"
-            android:id="@+id/funeralValue"/>
+        </LinearLayout>
+
+
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="15dp"
+                android:background="@color/white"
+                android:stretchColumns="1"> <!-- stretch the second column of the layout-->
+
+                <!-- first row of the table layout-->
+                <TableRow
+                    android:id="@+id/addressRow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:text="Address: "
+                        android:textColor="#000"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/veng"
+                        android:layout_width="0dp"
+                        android:paddingTop="5dp"
+                        android:paddingHorizontal="10dp"                        android:text="Text 2"
+                        android:textColor="#000"
+                        android:textSize="10dp" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:id="@+id/familyrow1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:text="A Chhungte: "
+                        android:textColor="#000"
+                        android:textSize="9dp" />
+
+
+
+                </TableRow>
+                <TextView
+                    android:id="@+id/chhungte"
+                    android:layout_width="0dp"
+                    android:text="Textasdfdsf 2"
+                    android:paddingLeft="29dp"
+                    android:textColor="#000"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="10dp" />
+            </TableLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+
+                android:background="@color/white"
+                android:stretchColumns="1"> <!-- stretch the second column of the layout-->
+
+                <!-- first row of the table layout-->
+                <TableRow
+                    android:id="@+id/deathRow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingHorizontal="10dp"                        android:text="THIH HUN: "
+                        android:textColor="#000"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/thihHun"
+                        android:layout_width="0dp"
+                        android:paddingTop="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:text="Text asdfasdfsadf"
+                        android:textColor="#000"
+                        android:textSize="10dp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/funeralRow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:paddingTop="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:text="Vui Hun: "
+                        android:textColor="#000"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/vuiHun"
+                        android:layout_width="0dp"
+                        android:paddingTop="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:layout_height="40dp"
+                        android:text="Text 2sdfsadfasdfsadf"
+                        android:textColor="#000"
+                        android:textSize="10dp" />
+
+
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map2"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MapNewActivity" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mitthi In"
+                android:layout_centerInParent="true"
+                android:layout_above="@+id/location"
+                android:padding="8dp"
+                android:textColor="#DDDDDD"
+                android:background="#A9424242"/>
+
+            <ImageView
+                android:id="@+id/location"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_baseline_location_on_24"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+
 </LinearLayout>

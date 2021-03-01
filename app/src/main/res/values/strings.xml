@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">YMA Zualko</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_map_new">Map</string>
 </resources>

@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/snap/android-studio/100/android-studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/location_on/baseline_location_on_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Android/Sdk/icons/material/materialicons/person/baseline_person_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,8 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="dd1a17" />
-                            <entry key="outputName" value="ic_baseline_location_on_24" />
+                            <entry key="color" value="97938c" />
+                            <entry key="outputName" value="ic_baseline_person_24" />
                           </map>
                         </option>
                       </PersistentState>
