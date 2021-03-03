@@ -13,9 +13,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +40,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -64,11 +69,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     SimpleDateFormat simpleDateFormat;
     private GoogleMap mMap;
+    Menu menu;
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.my_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        if(item.getItemId()==android.R.id.home){
+            onBackPressed();
+            return true;
+        }else if(item.getItemId()==R.id.create){
+            takeScreenshot();
+        }
+        return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         sharedPreferences = getApplication().getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
         this.simpleDateFormat = new SimpleDateFormat("d MMM yyyy \nh:mm a", Locale.getDefault());
 
@@ -110,24 +139,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+
+                intent.setAction(Intent.ACTION_PICK);
+                startActivityForResult(Intent.createChooser(intent, "Thlalak thlanna"), 1);
 
             }
         });
-
+/*  sharedPreferences.edit().putString("family",family.getText().toString()).apply();
+            sharedPreferences.edit().putString("name",name.getText().toString()).apply();
+            sharedPreferences.edit().putString("age",age.getText().toString()).apply();
+            sharedPreferences.edit().putString("address",address.getText().toString()).apply();
+            sharedPreferences.edit().putString("branch",branch.getText().toString()).apply();
+            sharedPreferences.edit().putString("funeral",sharedPreferences.getString("funeral","")).apply();
+            sharedPreferences.edit().putString("death",sharedPreferences.getString("death","")).apply();
+*/
         branch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 final EditText edittext = new EditText(MainActivity.this);
-                //alert.setMessage("Branc");
+                edittext.setText(sharedPreferences.getString("branch",""));
                 alert.setTitle("Branch ziah");
                 alert.setView(edittext);
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String YouEditTextValuea = edittext.getText().toString();
                         branch.setText("YOUNG MIZO ASSOCIATION : "+YouEditTextValuea);
+                        sharedPreferences.edit().putString("branch",YouEditTextValuea).apply();
+
+
                     }
                 });
 
@@ -143,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 final EditText edittext = new EditText(MainActivity.this);
+                edittext.setText(sharedPreferences.getString("name",""));
+
                 edittext.setHint("Pu Xyz, K-99");
                 //alert.setMessage("Branc");
                 alert.setTitle("Hming leh kum ziah");
@@ -151,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String YouEditTextValuea = edittext.getText().toString();
                         name.setText(YouEditTextValuea);
+                        sharedPreferences.edit().putString("name",YouEditTextValuea).apply();
+
                     }
                 });
                 alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -166,13 +210,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 final EditText edittext = new EditText(MainActivity.this);
                 edittext.setHint("Electric Veng, Aizawl Mizoram");
-                //alert.setMessage("Branc");
+                edittext.setText(sharedPreferences.getString("address",""));
                 alert.setTitle("Veng");
                 alert.setView(edittext);
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String YouEditTextValuea = edittext.getText().toString();
                         address.setText(YouEditTextValuea);
+                        sharedPreferences.edit().putString("address",YouEditTextValuea).apply();
+
                     }
                 });
                 alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -287,17 +333,54 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    private void takeScreenshot() {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+
+            // create bitmap screen capture
+            View v1 = getWindow().getDecorView().getRootView();
+            v1.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            v1.setDrawingCacheEnabled(false);
+
+            File imageFile = new File(mPath);
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+            openScreenshot(imageFile);
+        } catch (Throwable e) {
+            // Several error may come out with file handling or DOM
+            e.printStackTrace();
+        }
+    }
+    private void openScreenshot(File imageFile) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(imageFile);
+        intent.setDataAndType(uri, "image/*");
+        startActivity(intent);
+    }
     private void myFamily() {
         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
         final EditText edittext = new EditText(MainActivity.this);
         edittext.setHint("A nupui: Pi XYZ");
-        //alert.setMessage("Branc");
+        edittext.setText(sharedPreferences.getString("family",""));
         alert.setTitle("A Chhungte");
         alert.setView(edittext);
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String YouEditTextValuea = edittext.getText().toString();
                 family.setText(YouEditTextValuea);
+                sharedPreferences.edit().putString("family",YouEditTextValuea).apply();
+
             }
         });
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -310,26 +393,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            Uri uri = data.getData();
-            UCrop.of(uri, Uri.fromFile(new File(getCacheDir(), "iamge.jpg")))
+        try{
+            if (requestCode == 1) {
+                Uri uri = data.getData();
+                UCrop.of(uri, Uri.fromFile(new File(getCacheDir(), "iamge.jpg")))
 
-                    .withMaxResultSize(500, 500)
-                    .start(this);
-        }
-
-        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            final Uri resultUri = UCrop.getOutput(data);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-                picture.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+                        .withMaxResultSize(500, 500)
+                        .start(this);
             }
 
-        } else if (resultCode == UCrop.RESULT_ERROR) {
-            final Throwable cropError = UCrop.getError(data);
+            if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+                final Uri resultUri = UCrop.getOutput(data);
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
+                    picture.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else if (resultCode == UCrop.RESULT_ERROR) {
+                final Throwable cropError = UCrop.getError(data);
+            }
+        }catch (Exception e){
+            Log.d("TAG","Image Select Exception: "+e);
         }
+
     }
 
 

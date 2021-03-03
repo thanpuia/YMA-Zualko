@@ -50,7 +50,7 @@ public class FormActivity extends AppCompatActivity {
     TextView deathValue;
     TextView funeralValue;
 
-    CircularImageView circularImageView;
+ //   CircularImageView circularImageView;
     SingleDateAndTimePickerDialog.Builder singleBuilder;
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -86,7 +86,7 @@ public class FormActivity extends AppCompatActivity {
         deathTime = findViewById(R.id.deathTime);
         funeralTime = findViewById(R.id.funeralTime);
         branch = findViewById(R.id.branch);
-        circularImageView = findViewById(R.id.picture);
+        //circularImageView = findViewById(R.id.picture);
 
         deathValue =findViewById(R.id.deathTimeValue);
         funeralValue = findViewById(R.id.funeralTimeValue);
@@ -144,7 +144,7 @@ public class FormActivity extends AppCompatActivity {
             final Uri resultUri = UCrop.getOutput(data);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-                circularImageView.setImageBitmap(bitmap);
+                //circularImageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -194,7 +194,7 @@ public class FormActivity extends AppCompatActivity {
         }else bFamily = true;
 
         if(bName && bAge && bAddress && bBranch && bDeathtime && bFuneralTime && bFamily){
-            Toasty.success(this,"A dik vek e!",Toasty.LENGTH_SHORT).show();
+            //Toasty.success(this,"A dik vek e!",Toasty.LENGTH_SHORT).show();
             Log.d("TAG","SUCCESS");
 
             sharedPreferences.edit().putString("family",family.getText().toString()).apply();
