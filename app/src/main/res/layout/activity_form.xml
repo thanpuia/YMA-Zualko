@@ -19,21 +19,33 @@
 
 
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
-                android:maxLines="1"
-                android:lines="1"
-                android:singleLine="true"
-                android:layout_marginBottom="5dp"
-                app:met_floatingLabel="highlight"
-                app:met_floatingLabelAlwaysShown="true"
-                app:met_floatingLabelText="Mitthi Hming"
-                android:maxLength="50"
-                android:paddingLeft="15dp"
-                />
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/preFixed"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:layout_marginBottom="5dp"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="Mitthi Hming"
+                    android:maxLength="50"
+                    android:paddingLeft="15dp"
+                    />
+            </LinearLayout>
+
 
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -54,21 +66,33 @@
 
                 />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/family"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                app:met_floatingLabel="highlight"
-                app:met_floatingLabelAlwaysShown="true"
-                app:met_floatingLabelText="A chhungte"
-                android:hint="Entirnan: A Nupui: Hmingi"
-                android:lines="1"
-                android:singleLine="true"
-                android:layout_marginBottom="5dp"
-                android:paddingLeft="15dp"
+                android:orientation="horizontal">
 
-                />
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/familySpinner"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/family"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="A chhungte"
+                    android:hint="Entirnan: A Nupui: Hmingi"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:layout_marginBottom="5dp"
+                    android:paddingLeft="15dp"
+
+                    />
+
+            </LinearLayout>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/address"

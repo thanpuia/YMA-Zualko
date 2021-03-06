@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -70,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     SimpleDateFormat simpleDateFormat;
     private GoogleMap mMap;
     Menu menu;
+    Bitmap bitmap;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return true;
         }else if(item.getItemId()==R.id.create){
             takeScreenshot();
+            //ss();
         }
         return true;
     }
@@ -97,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //Drawable drawable = getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark);
+        //bitmap = ((BitmapDrawable) drawable).getBitmap();
 
         sharedPreferences = getApplication().getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
         this.simpleDateFormat = new SimpleDateFormat("d MMM yyyy \nh:mm a", Locale.getDefault());
@@ -333,9 +342,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void takeScreenshot() {
+    public void ss(){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File file = new File(directory, "UniqueFileName" + ".jpg");
+        if (!file.exists()) {
+            Log.d("path", file.toString());
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public void takeScreenshot() {
         Date now = new Date();
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
 
         try {
             // image naming and path  to include sd card  appending name you choose for file
@@ -358,7 +387,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             openScreenshot(imageFile);
         } catch (Throwable e) {
             // Several error may come out with file handling or DOM
+            Toast.makeText(this,"Roor +"+e,Toast.LENGTH_SHORT).show();
+
+
             e.printStackTrace();
+            Log.d("TAG","ER"+e);
         }
     }
     private void openScreenshot(File imageFile) {

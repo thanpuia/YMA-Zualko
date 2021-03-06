@@ -15,7 +15,10 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.webkit.PermissionRequest;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,8 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.sanojpunchihewa.updatemanager.UpdateManager;
+import com.sanojpunchihewa.updatemanager.UpdateManagerConstant;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -49,6 +54,11 @@ public class FormActivity extends AppCompatActivity {
     MaterialEditText branch;
     TextView deathValue;
     TextView funeralValue;
+    Spinner preFixed;
+    Spinner familySpinner;
+
+    String fullName;
+    String familyMember;
 
  //   CircularImageView circularImageView;
     SingleDateAndTimePickerDialog.Builder singleBuilder;
@@ -56,8 +66,6 @@ public class FormActivity extends AppCompatActivity {
 
     SimpleDateFormat simpleDateFormat;
     SimpleDateFormat simpleTimeFormat;
-    //SimpleDateFormat simpleDateOnlyFormat;
-    //SimpleDateFormat simpleDateLocaleFormat;
 
     String funeralStr;
     String deathStr;
@@ -70,12 +78,59 @@ public class FormActivity extends AppCompatActivity {
     Boolean bFamily = true;
 
     SharedPreferences sharedPreferences;
-    //private static final int MY_REQUEST_CODE = 11;
+
+    String[] prefixes ;
+    String[] familyName;
+
+    ArrayAdapter arrayAdapterPrixes;
+    ArrayAdapter arrayAdapterFamilyName;
+
+    UpdateManager mUpdateManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
+        mUpdateManager = UpdateManager.Builder(this).mode(UpdateManagerConstant.IMMEDIATE);
+        mUpdateManager.start();
+        mUpdateManager.addUpdateInfoListener(new UpdateManager.UpdateInfoListener() {
+            @Override
+            public void onReceiveVersionCode(final int code) {
+                Log.d("TAG","VERCODE: "+code);
+            }
+            @Override
+            public void onReceiveStalenessDays(final int days) {
+                // Number of days passed since the user was notified of an update through the Google Play// If the user hasn't notified this will return -1 as days// You can decide the type of update you want to call
+            }
+        });
+
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Toast.makeText(FormActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(FormActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        };
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.ACCESS_NETWORK_STATE
+                        ).check();
+
+        prefixes = new String[]{"Pu","Pi","Tv.","Nl.","Np"," "};
+        familyName = new String[]{"A Nupui","A Pasal","A Pi","A Pu","A Ni","A Nau","A Pa","A Nu"};
 
         sharedPreferences = getApplication().getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
 
@@ -90,6 +145,18 @@ public class FormActivity extends AppCompatActivity {
 
         deathValue =findViewById(R.id.deathTimeValue);
         funeralValue = findViewById(R.id.funeralTimeValue);
+
+        preFixed = findViewById(R.id.preFixed);
+        familySpinner = findViewById(R.id.familySpinner);
+
+        arrayAdapterPrixes = new ArrayAdapter(this, android.R.layout.simple_spinner_item,prefixes);
+        arrayAdapterPrixes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        preFixed.setAdapter(arrayAdapterPrixes);
+
+        arrayAdapterFamilyName = new ArrayAdapter(this, android.R.layout.simple_spinner_item,familyName);
+        arrayAdapterFamilyName.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        familySpinner.setAdapter(arrayAdapterFamilyName);
+
 //        this.simpleDateFormat = new SimpleDateFormat("d.MM.YYYY h:m a", Locale.getDefault());
         this.simpleDateFormat = new SimpleDateFormat("d MMM yyyy \nh:mm a", Locale.getDefault());
 
@@ -197,20 +264,26 @@ public class FormActivity extends AppCompatActivity {
             //Toasty.success(this,"A dik vek e!",Toasty.LENGTH_SHORT).show();
             Log.d("TAG","SUCCESS");
 
-            sharedPreferences.edit().putString("family",family.getText().toString()).apply();
-            sharedPreferences.edit().putString("name",name.getText().toString()).apply();
+            String pre = preFixed.getSelectedItem().toString();
+            fullName = pre+" "+name.getText().toString();
+
+            String prefly = familySpinner.getSelectedItem().toString();
+            familyMember = prefly+" "+family.getText().toString();
+
+            //pre = pre+" "+name.getText().toString();
+            sharedPreferences.edit().putString("family",familyMember).apply();
+            sharedPreferences.edit().putString("name",fullName).apply();
             sharedPreferences.edit().putString("age",age.getText().toString()).apply();
             sharedPreferences.edit().putString("address",address.getText().toString()).apply();
             sharedPreferences.edit().putString("branch",branch.getText().toString()).apply();
             sharedPreferences.edit().putString("funeral",sharedPreferences.getString("funeral","")).apply();
             sharedPreferences.edit().putString("death",sharedPreferences.getString("death","")).apply();
 
-
 //            Intent intent = new Intent(this,MapsActivity.class);
             Intent intent = new Intent(this,MainActivity.class);
-            intent.putExtra("family",family.getText().toString());
+            intent.putExtra("family",familyMember);
 
-            intent.putExtra("name",name.getText().toString());
+            intent.putExtra("name",fullName);
             intent.putExtra("age",age.getText().toString());
             intent.putExtra("address",address.getText().toString());
             intent.putExtra("branch",branch.getText().toString());
