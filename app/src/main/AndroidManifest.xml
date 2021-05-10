@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ymazualko">
+    package="com.give.ymazualko">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/yma_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.YMAZualko">
-        <activity android:name=".SplashScreenActivity"
+        <activity android:name="com.give.ymazualko.SplashScreenActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,10 +44,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".MapNewActivity"
+            android:name="com.give.ymazualko.MapNewActivity"
             android:label="@string/title_activity_map_new" />
-        <activity android:name=".FormActivity"/>
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.give.ymazualko.FormActivity"/>
+        <activity android:name="com.give.ymazualko.MainActivity" />
     </application>
 
 </manifest>

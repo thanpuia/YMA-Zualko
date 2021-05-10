@@ -1,8 +1,7 @@
-package com.example.ymazualko;
+package com.give.ymazualko;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -10,28 +9,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BlurMaskFilter;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,7 +30,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.yalantis.ucrop.UCrop;
 
@@ -50,8 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -67,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     TableRow funeralRow;
 
     CircularImageView picture;
-    ImageView ymalogo;
+   // ImageView ymalogo;
     SharedPreferences sharedPreferences;
     SingleDateAndTimePickerDialog.Builder singleBuilder;
 
@@ -121,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         family = findViewById(R.id.chhungte);
         address = findViewById(R.id.veng);
         picture =findViewById(R.id.thlalak);
-        ymalogo = findViewById(R.id.ymalogo);
+      //  ymalogo = findViewById(R.id.ymalogo);
 
         addressRow = findViewById(R.id.addressRow);
         familyRow1 = findViewById(R.id.familyrow1);
@@ -137,11 +125,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         funeral.setText(getIntent().getStringExtra("funeral"));
         death.setText(getIntent().getStringExtra("death"));
 
-        Glide.with(getApplicationContext())
+      /*  Glide.with(getApplicationContext())
                  .load(R.drawable.yma)
                 .centerCrop()
                 .transform(new BlurTransformation(10,2))
-                .into(ymalogo);
+                .into(ymalogo);*/
 
         picture.setOnClickListener(new View.OnClickListener() {
             @Override

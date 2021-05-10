@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.ymazualko"
+        applicationId "com.give.ymazualko"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 2

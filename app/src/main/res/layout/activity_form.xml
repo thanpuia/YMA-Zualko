@@ -24,10 +24,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/preFixed"/>
+<!--                <Spinner-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/preFixed"/>-->
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/name"
@@ -52,7 +52,7 @@
                 android:id="@+id/age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:lines="1"
                 android:singleLine="true"
@@ -61,7 +61,6 @@
                 app:met_floatingLabelAlwaysShown="true"
                 app:met_floatingLabelText="Kum"
                 android:maxLength="3"
-                android:hint="Entirnan: K-97"
                 android:paddingLeft="15dp"
 
                 />
@@ -71,10 +70,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/familySpinner"/>
+<!--                <Spinner-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/familySpinner"/>-->
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/family"
@@ -84,12 +83,11 @@
                     app:met_floatingLabel="highlight"
                     app:met_floatingLabelAlwaysShown="true"
                     app:met_floatingLabelText="A chhungte"
-                    android:hint="Entirnan: A Nupui: Hmingi"
                     android:lines="1"
                     android:singleLine="true"
                     android:layout_marginBottom="5dp"
                     android:paddingLeft="15dp"
-
+                    android:hint="eg: A nupui: Pi ..."
                     />
 
             </LinearLayout>
@@ -106,7 +104,7 @@
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelAlwaysShown="true"
                 app:met_floatingLabelText="Veng"
-                android:hint="Entirnan: Section V, Electric Veng, Aizawl"
+                android:hint="eg: Section V, Electric Veng, Aizawl"
                 android:maxLength="50"
                 android:paddingLeft="15dp"
 
@@ -124,8 +122,10 @@
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelAlwaysShown="true"
                 app:met_floatingLabelText="Branch"
-                android:hint="Entirnan: Electric Veng Branch"
+                android:hint="eg: Electric Veng Branch"
                 android:maxLength="50"
+                android:paddingLeft="15dp"
+
                 />
 
             <LinearLayout
@@ -151,6 +151,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/deathTimeValue"
+                        android:text="00.00.00 "
                         android:textAlignment="center"/>
 
                 </LinearLayout>
@@ -170,6 +171,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
+                        android:text="00.00.00 "
                         android:id="@+id/funeralTimeValue" />
                 </LinearLayout>
 

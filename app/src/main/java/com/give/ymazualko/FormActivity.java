@@ -1,21 +1,17 @@
-package com.example.ymazualko;
+package com.give.ymazualko;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.webkit.PermissionRequest;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -27,7 +23,6 @@ import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePick
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.sanojpunchihewa.updatemanager.UpdateManager;
 import com.sanojpunchihewa.updatemanager.UpdateManagerConstant;
@@ -41,8 +36,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import es.dmoral.toasty.Toasty;
-
 public class FormActivity extends AppCompatActivity {
     MaterialEditText name;
     MaterialEditText age;
@@ -54,8 +47,8 @@ public class FormActivity extends AppCompatActivity {
     MaterialEditText branch;
     TextView deathValue;
     TextView funeralValue;
-    Spinner preFixed;
-    Spinner familySpinner;
+    //Spinner preFixed;
+    //Spinner familySpinner;
 
     String fullName;
     String familyMember;
@@ -146,16 +139,16 @@ public class FormActivity extends AppCompatActivity {
         deathValue =findViewById(R.id.deathTimeValue);
         funeralValue = findViewById(R.id.funeralTimeValue);
 
-        preFixed = findViewById(R.id.preFixed);
-        familySpinner = findViewById(R.id.familySpinner);
+      //  preFixed = findViewById(R.id.preFixed);
+       // familySpinner = findViewById(R.id.familySpinner);
 
-        arrayAdapterPrixes = new ArrayAdapter(this, android.R.layout.simple_spinner_item,prefixes);
-        arrayAdapterPrixes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        preFixed.setAdapter(arrayAdapterPrixes);
+      //  arrayAdapterPrixes = new ArrayAdapter(this, android.R.layout.simple_spinner_item,prefixes);
+      //  arrayAdapterPrixes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+       // preFixed.setAdapter(arrayAdapterPrixes);
 
         arrayAdapterFamilyName = new ArrayAdapter(this, android.R.layout.simple_spinner_item,familyName);
         arrayAdapterFamilyName.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        familySpinner.setAdapter(arrayAdapterFamilyName);
+        //familySpinner.setAdapter(arrayAdapterFamilyName);
 
 //        this.simpleDateFormat = new SimpleDateFormat("d.MM.YYYY h:m a", Locale.getDefault());
         this.simpleDateFormat = new SimpleDateFormat("d MMM yyyy \nh:mm a", Locale.getDefault());
@@ -264,11 +257,11 @@ public class FormActivity extends AppCompatActivity {
             //Toasty.success(this,"A dik vek e!",Toasty.LENGTH_SHORT).show();
             Log.d("TAG","SUCCESS");
 
-            String pre = preFixed.getSelectedItem().toString();
-            fullName = pre+" "+name.getText().toString();
+            //String pre = preFixed.getSelectedItem().toString();
+            fullName = name.getText().toString();
 
-            String prefly = familySpinner.getSelectedItem().toString();
-            familyMember = prefly+" "+family.getText().toString();
+            //String prefly = familySpinner.getSelectedItem().toString();
+            familyMember =family.getText().toString();
 
             //pre = pre+" "+name.getText().toString();
             sharedPreferences.edit().putString("family",familyMember).apply();
@@ -324,13 +317,13 @@ public class FormActivity extends AppCompatActivity {
 
         if(!sharedPreferences.getString("funeral","").matches("")){
             bFuneralTime = true;
-            funeralTime.setText(sharedPreferences.getString("funeral",""));
+            //funeralTime.setText(sharedPreferences.getString("funeral",""));
             funeralStr = sharedPreferences.getString("funeral","");
         }else bFuneralTime = false;
 
         if(!sharedPreferences.getString("death","").matches("")){
             bDeathtime = true;
-            deathTime.setText(sharedPreferences.getString("death",""));
+          //  deathTime.setText(sharedPreferences.getString("death",""));
             deathStr = sharedPreferences.getString("death","");
         }else bDeathtime = false;
     }

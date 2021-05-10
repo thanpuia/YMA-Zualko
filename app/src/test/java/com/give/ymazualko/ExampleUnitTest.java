@@ -1,4 +1,4 @@
-package com.example.ymazualko;
+package com.give.ymazualko;
 
 import org.junit.Test;
 
