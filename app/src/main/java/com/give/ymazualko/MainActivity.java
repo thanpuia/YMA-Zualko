@@ -1,6 +1,7 @@
 package com.give.ymazualko;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,6 +10,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +33,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.yalantis.ucrop.UCrop;
 
@@ -64,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Menu menu;
     Bitmap bitmap;
 
+    private Marker myMarker;
+    private String myMarkerTitle;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
@@ -95,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Drawable drawable = getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark);
         //bitmap = ((BitmapDrawable) drawable).getBitmap();
 
+        myMarkerTitle = "Add Marker";
         sharedPreferences = getApplication().getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
         this.simpleDateFormat = new SimpleDateFormat("d MMM yyyy \nh:mm a", Locale.getDefault());
 
@@ -447,10 +459,109 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
+        //TODO : hei a user lastknownlocation atang a lak tur
         LatLng elctricVeng = new LatLng( 23.736561, 92.718193);
       //  mMap.addMarker(new MarkerOptions().position(elctricVeng).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(elctricVeng));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(23.736561,92.718193), 16.0f));
+
+        mMap.animateCamera(
+                CameraUpdateFactory.
+                        newLatLngZoom(elctricVeng, 16.0f));
+
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+        //MITTHI TE IN BUL
+        //Bitmap img = BitmapFactory.decodeResource(getResources(),R.drawable.add_more);
+        myMarker = mMap.addMarker(
+                new MarkerOptions()
+                    .title(myMarkerTitle)
+                        .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.add_marker)
+                        )
+                    .position(new LatLng(23.736571,92.718193))
+                    .draggable(true)
+
+        );
+
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener()
+        {
+            @Override
+            public void onMarkerDragStart(Marker marker)
+            {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker)
+            {
+                // TODO Auto-generated method stub
+                //   lat     = marker.getPosition().latitude;
+                //  lng     = marker.getPosition().longitude;
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker)
+            {
+                // TODO Auto-generated method stub
+            }
+        });
+
+//        mMap.addMarker(
+//                new MarkerOptions()
+//                        .title("Dynamic")
+//                        .position(new LatLng(23.736571,92.718193))
+//                        .draggable(true)
+//        ).showInfoWindow();
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                if(marker.equals(myMarker)){
+                   // Toast.makeText(getApplicationContext(),"CLCICKCKC",Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                    final EditText edittext = new EditText(MainActivity.this);
+                    edittext.setHint("Landmark (tu te in bul");
+                    edittext.setText(sharedPreferences.getString("landmark",""));
+                    alert.setTitle("Landmark");
+                    alert.setView(edittext);
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String YouEditTextValuea = edittext.getText().toString();
+                            //address.setText(YouEditTextValuea);
+                            myMarkerTitle = YouEditTextValuea;
+
+                            mMap.addMarker(
+                                    new MarkerOptions()
+                                            .title(myMarkerTitle)
+                                            .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.landmark)
+                                            )
+                                            .position(new LatLng(23.736571,92.718193))
+                                            .draggable(true)
+                            ).showInfoWindow();
+
+
+                            sharedPreferences.edit().putString("landmark",YouEditTextValuea).apply();
+
+                        }
+                    });
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    });
+                    alert.show();
+                }
+                return false;
+            }
+        });
+
+
+    }
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
